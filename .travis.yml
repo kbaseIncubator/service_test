@@ -6,11 +6,13 @@ env:
     secure: ZN21ihuhGsPo0HAGvdBXUr77ybU20IZZqPn5oKJZCeTaLKHIET9ZfvAuTj42fOAMumiZBk9AjdNtHuMUaEXtI6BnVk86kDiwj/H2uwcIPUwNKDYIxhljxD3uqH5UniBRVcN4Ngu2o/jXo3dNeMwfI0kpTtM10+/8VMqpPf92Bnk=
 
 install:
+  - cd ..
   - git clone https://github.com/kbase/jars
   - git clone https://github.com/kbaseIncubator/module_builder
   - cd module_builder
   - git checkout develop
   - make
+  - cd service_test
 
 script:
   - make
