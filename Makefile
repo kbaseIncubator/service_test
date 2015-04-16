@@ -1,11 +1,8 @@
 
-
-#port is now set in deploy.cfg
-SERVICE_PORT = $(shell perl server_scripts/get_deploy_cfg.pm NarrativeMethodStore.port)
 SERVICE = math
 SERVICE_CAPS = Math
+#SERVICE_PORT = $(shell perl server_scripts/get_deploy_cfg.pm $(SERVICE_CAPS).port)
 SPEC_FILE = Math.spec
-WAR = Math.war
 URL = https://kbase.us/services/math
 
 #End of user defined variables
@@ -19,10 +16,17 @@ TOP_DIR_NAME = $(shell basename $(TOP_DIR))
 
 DIR = $(shell pwd)
 
+LIB_DIR = lib
+
+BIN_DIR = bin
+EXECUTABLE_SCRIPT_NAME = run_$(SERVICE_CAPS)_async_job.sh
+
+
+default: compile-kb-module build-executable-script-perl
 
 compile-kb-module:
 	kb-module-builder compile $(SPEC_FILE) \
-		--out lib \
+		--out $(LIB_DIR) \
 		--plclname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Client \
 		--plsrvname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Server \
 		--plimplname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Impl \
@@ -30,7 +34,18 @@ compile-kb-module:
 		--jsclname javascript/$(SERVICE_CAPS)Client \
 		--pyclname biokbase.$(SERVICE).$(SERVICE_CAPS)Client;
 
-
+# NOTE: script generation and wrapping in various languages should be
+# handled in a kb-module-builder tool, but for now we just generate the
+# script within this makefile
+build-executable-script-perl:
+	mkdir -p $(BIN_DIR)
+	echo '#!/bin/bash' > $(BIN_DIR)/$(EXECUTABLE_SCRIPT_NAME)
+	echo 'export PERL5LIB=$(DIR)/$(LIB_DIR):$$PATH:$$PERL5LIB' >> $(BIN_DIR)/$(EXECUTABLE_SCRIPT_NAME)
+	echo 'perl $(DIR)/$(LIB_DIR)/Bio/KBase/$(SERVICE_CAPS)/$(SERVICE_CAPS)Server.pm $$1 $$2 $$3' >> $(BIN_DIR)/$(EXECUTABLE_SCRIPT_NAME)
+	chmod +x $(BIN_DIR)/$(EXECUTABLE_SCRIPT_NAME)
+ifeq ($(TOP_DIR_NAME), dev_container)
+	cp $(BIN_DIR)/$(EXECUTABLE_SCRIPT_NAME) $(TOP_DIR)/bin/.
+endif
 
 
 
