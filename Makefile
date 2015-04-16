@@ -22,13 +22,13 @@ DIR = $(shell pwd)
 
 compile-kb-module:
 	kb-module-builder compile $(SPEC_FILE) \
-	    --out lib \
+		--out lib \
 		--plclname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Client \
 		--plsrvname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Server \
 		--plimplname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Impl \
 		--plpsginame $(SERVICE_CAPS).psgi \
-		--jsclname javascript/$(SERVICE_CAPS)Client.js \
-		--pyclname biokbase.$(SERVICE).$(SERVICE_CAPS)Client.py;
+		--jsclname javascript/$(SERVICE_CAPS)Client \
+		--pyclname biokbase.$(SERVICE).$(SERVICE_CAPS)Client;
 
 
 
