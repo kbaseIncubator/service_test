@@ -5,6 +5,13 @@ env:
   global:
     secure: ZN21ihuhGsPo0HAGvdBXUr77ybU20IZZqPn5oKJZCeTaLKHIET9ZfvAuTj42fOAMumiZBk9AjdNtHuMUaEXtI6BnVk86kDiwj/H2uwcIPUwNKDYIxhljxD3uqH5UniBRVcN4Ngu2o/jXo3dNeMwfI0kpTtM10+/8VMqpPf92Bnk=
 
+# setup the necessary system dependencies
+before_install:
+  - cpanm --verbose --notest JSON::RPC::Client
+  - cpanm --verbose --notest Exception::Class
+
+# checkout and install the module_builder, add it to the path
+# then build the current perl service module
 install:
   - cd ..
   - git clone https://github.com/kbase/jars
@@ -12,9 +19,9 @@ install:
   - cd module_builder
   - git checkout develop
   - make
+  - export PATH=$(pwd)/bin:$PATH
   - cd ../service_test
-  - cpanm --verbose --notest JSON::RPC::Client
-  - cpanm --verbose --notest Exception::Class
 
+# run the tests
 script:
   - make
