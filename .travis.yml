@@ -1,5 +1,5 @@
 
-language: java
+language: perl
 
 env:
   global:
@@ -12,7 +12,9 @@ install:
   - cd module_builder
   - git checkout develop
   - make
-  - cd service_test
+  - cd ../service_test
+  - cpanm --verbose --notest JSON::RPC::Client
+  - cpanm --verbose --notest Exception::Class
 
 script:
   - make
