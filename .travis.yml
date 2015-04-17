@@ -12,13 +12,18 @@ before_install:
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
-# 1) checkout and install the module_builder; add it to the path
-# 2) build the perl service module (in directory service_test) and
+# 1) checkout kbapi_common and auth dependencies, and set the PERL5LIB
+# 2) checkout and install module_builder; add it to the path
+# 3) build the perl service module (in directory service_test) and
 #    add the long running executable to the path so the local Execution
 #    Engine can run it
-# 3) startup the mock Execution Engine service
+# 4) startup the mock Execution Engine service
 install:
   - cd ..
+  - git clone https://github.com/kbase/kbapi_common
+  - export PERL5LIB=$(pwd)/kbapi_common/lib:$PERL5LIB
+  - git clone https://github.com/kbase/auth
+  - export PERL5LIB=$(pwd)/auth/Bio-KBase-Auth/lib:$PERL5LIB
   - git clone https://github.com/kbase/jars
   - git clone https://github.com/kbaseIncubator/module_builder
   - cd module_builder
