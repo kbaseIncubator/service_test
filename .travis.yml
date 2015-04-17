@@ -27,12 +27,14 @@ install:
   - make
   - export PATH=$(pwd)/bin:$PATH
   - ../module_builder/test_scripts/ee_mock_service/start_service.sh
+  - sleep 5
   - curl http://localhost:8000
 
 # run the tests
 script:
   - cd lib
   - ./TestPerlServer.sh > perlserver.log 2>&1 &
+  - sleep 5
   - curl http://localhost:5000
   - perl TestMathClient.pl
   - cd ../
