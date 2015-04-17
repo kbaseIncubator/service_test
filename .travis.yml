@@ -17,6 +17,7 @@ before_install:
   - cpanm --verbose --notest URI
   - cpanm --verbose --notest POSIX
   - cpanm --verbose --notest DateTime
+  - cpanm --verbose --notest Object::Tiny::RW
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
