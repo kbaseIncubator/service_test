@@ -9,10 +9,15 @@ env:
 before_install:
   - cpanm --verbose --notest JSON::RPC::Client
   - cpanm --verbose --notest Exception::Class
+  - cpanm --verbose --notest Config::Simple
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
 # 1) checkout kbapi_common and auth dependencies, and set the PERL5LIB
+#     -note that AuthConstants.pm is generated on make in auth, which
+#      doesn't easily work in Travis-CI because there is no dev_container
+#      environment.  For now, this dependency is copied directly in this
+#      module (into lib/Bio/KBase/).
 # 2) checkout and install module_builder; add it to the path
 # 3) build the perl service module (in directory service_test) and
 #    add the long running executable to the path so the local Execution
