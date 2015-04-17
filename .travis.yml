@@ -11,6 +11,7 @@ before_install:
   - cpanm --verbose --notest Exception::Class
   - cpanm --verbose --notest Config::Simple
   - cpanm --verbose --notest Digest::SHA1
+  - cpanm --verbose --notest Crypt::OpenSSL::RSA
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
