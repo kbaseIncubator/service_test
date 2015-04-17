@@ -9,6 +9,8 @@ env:
 before_install:
   - cpanm --verbose --notest JSON::RPC::Client
   - cpanm --verbose --notest Exception::Class
+  - cpanm --verbose --notest PSGI
+  - cpanm --verbose --notest Plack
 
 # 1) checkout and install the module_builder; add it to the path
 # 2) build the perl service module (in directory service_test) and
@@ -29,10 +31,10 @@ install:
   - ../module_builder/test_scripts/ee_mock_service/start_service.sh
   - sleep 5
   - curl http://localhost:8000
+  - cd lib
 
 # run the tests
 script:
-  - cd lib
   - ./TestPerlServer.sh > perlserver.log 2>&1 &
   - sleep 5
   - curl http://localhost:5000
