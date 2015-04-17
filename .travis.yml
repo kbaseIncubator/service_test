@@ -19,6 +19,8 @@ before_install:
   - cpanm --verbose --notest DateTime
   - cpanm --verbose --notest Object::Tiny::RW
   - cpanm --verbose --notest Class::Accessor
+  - cpanm --verbose --notest RPC::Any::Server::JSONRPC::PSGI
+  - cpanm --verbose --notest Plack::Middleware::CrossOrigin
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
