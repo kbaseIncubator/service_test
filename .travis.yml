@@ -3,7 +3,8 @@ language: perl
 
 env:
   global:
-    secure: ZN21ihuhGsPo0HAGvdBXUr77ybU20IZZqPn5oKJZCeTaLKHIET9ZfvAuTj42fOAMumiZBk9AjdNtHuMUaEXtI6BnVk86kDiwj/H2uwcIPUwNKDYIxhljxD3uqH5UniBRVcN4Ngu2o/jXo3dNeMwfI0kpTtM10+/8VMqpPf92Bnk=
+    - KB_TEST_USER_NAME=wstester4
+    - secure: ZN21ihuhGsPo0HAGvdBXUr77ybU20IZZqPn5oKJZCeTaLKHIET9ZfvAuTj42fOAMumiZBk9AjdNtHuMUaEXtI6BnVk86kDiwj/H2uwcIPUwNKDYIxhljxD3uqH5UniBRVcN4Ngu2o/jXo3dNeMwfI0kpTtM10+/8VMqpPf92Bnk=
 
 # setup the necessary system dependencies
 before_install:

@@ -3,9 +3,13 @@ use strict;
 use Data::Dumper;
 use Bio::KBase::Math::MathClient;
 
+
+my $user = $ENV{'KB_TEST_USER_NAME'};
+my $psswd = $ENV{'TEST_PSWD'};
+
 # Initialize the client
 # note: if you are logged in using kbase-login, then you don't need to set user name and password here
-my $math = new Bio::KBase::Math::MathClient("http://localhost:5000"); #,user_id=>'kbasetest', password=>'***');
+my $math = new Bio::KBase::Math::MathClient("http://localhost:5000",user_id=>$user, password=>$psswd);
 
 # standard rpc call
 print "Calling RPC \$math->add(..)\n";
