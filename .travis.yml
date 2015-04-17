@@ -12,6 +12,11 @@ before_install:
   - cpanm --verbose --notest Config::Simple
   - cpanm --verbose --notest Digest::SHA1
   - cpanm --verbose --notest Crypt::OpenSSL::RSA
+  - cpanm --verbose --notest Convert::PEM
+  - cpanm --verbose --notest MIME::Base64
+  - cpanm --verbose --notest URI
+  - cpanm --verbose --notest POSIX
+  - cpanm --verbose --notest DateTime
   - cpanm --verbose --notest PSGI
   - cpanm --verbose --notest Plack
 
