@@ -10,8 +10,11 @@ before_install:
   - cpanm --verbose --notest JSON::RPC::Client
   - cpanm --verbose --notest Exception::Class
 
-# checkout and install the module_builder, add it to the path
-# then build the current perl service module
+# 1) checkout and install the module_builder; add it to the path
+# 2) build the perl service module (in directory service_test) and
+#    add the long running executable to the path so the local Execution
+#    Engine can run it
+# 3) startup the mock Execution Engine service
 install:
   - cd ..
   - git clone https://github.com/kbase/jars
@@ -21,7 +24,18 @@ install:
   - make
   - export PATH=$(pwd)/bin:$PATH
   - cd ../service_test
+  - make
+  - export PATH=$(pwd)/bin:$PATH
+  - ../module_builder/test_scripts/ee_mock_service/start_service.sh
+  - curl http://localhost:8000
 
 # run the tests
 script:
-  - make
+  - cd lib
+  - ./TestPerlServer.sh > perlserver.log 2>&1 &
+  - curl http://localhost:5000
+  - perl TestMathClient.pl
+  - cd ../
+
+after_script:
+  - cat lib/perlserver.log
