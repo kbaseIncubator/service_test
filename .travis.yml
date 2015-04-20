@@ -44,7 +44,6 @@ install:
   - git clone https://github.com/kbase/jars
   - git clone https://github.com/kbaseIncubator/module_builder
   - cd module_builder
-  - git checkout develop
   - make
   - export PATH=$(pwd)/bin:$PATH
   - cd ../service_test
