@@ -29,7 +29,7 @@ EXECUTABLE_SCRIPT_NAME = run_$(SERVICE_CAPS)_async_job.sh
 default: compile-kb-module build-executable-script-perl
 
 compile-kb-module:
-	kb-module-builder compile $(SPEC_FILE) \
+	kb-mobu compile $(SPEC_FILE) \
 		--out $(LIB_DIR) \
 		--plclname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Client \
 		--plsrvname Bio::KBase::$(SERVICE_CAPS)::$(SERVICE_CAPS)Server \

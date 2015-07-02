@@ -42,14 +42,14 @@ install:
   - git clone https://github.com/kbase/auth
   - export PERL5LIB=$(pwd)/auth/Bio-KBase-Auth/lib:$PERL5LIB
   - git clone https://github.com/kbase/jars
-  - git clone https://github.com/kbaseIncubator/module_builder
-  - cd module_builder
+  - git clone https://github.com/kbaseIncubator/kb_sdk
+  - cd kb_sdk
   - make
   - export PATH=$(pwd)/bin:$PATH
   - cd ../service_test
   - make
   - export PATH=$(pwd)/bin:$PATH
-  - ../module_builder/test_scripts/ee_mock_service/start_service.sh
+  - ../kb_sdk/test_scripts/ee_mock_service/start_service.sh
   - sleep 5
   - curl http://localhost:8000
   - cd lib
