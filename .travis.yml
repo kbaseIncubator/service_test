@@ -1,0 +1,66 @@
+
+language: perl
+
+env:
+  global:
+    - KB_TEST_USER_NAME=wstester4
+    - secure: ZN21ihuhGsPo0HAGvdBXUr77ybU20IZZqPn5oKJZCeTaLKHIET9ZfvAuTj42fOAMumiZBk9AjdNtHuMUaEXtI6BnVk86kDiwj/H2uwcIPUwNKDYIxhljxD3uqH5UniBRVcN4Ngu2o/jXo3dNeMwfI0kpTtM10+/8VMqpPf92Bnk=
+
+# setup the necessary system dependencies
+before_install:
+  - cpanm --verbose --notest JSON::RPC::Client
+  - cpanm --verbose --notest Exception::Class
+  - cpanm --verbose --notest Config::Simple
+  - cpanm --verbose --notest Digest::SHA1
+  - cpanm --verbose --notest Crypt::OpenSSL::RSA
+  - cpanm --verbose --notest Convert::PEM
+  - cpanm --verbose --notest MIME::Base64
+  - cpanm --verbose --notest URI
+  - cpanm --verbose --notest POSIX
+  - cpanm --verbose --notest DateTime
+  - cpanm --verbose --notest Object::Tiny::RW
+  - cpanm --verbose --notest Class::Accessor
+  - cpanm --verbose --notest RPC::Any::Server::JSONRPC::PSGI
+  - cpanm --verbose --notest Plack::Middleware::CrossOrigin
+  - cpanm --verbose --notest PSGI
+  - cpanm --verbose --notest Plack
+
+# 1) checkout kbapi_common and auth dependencies, and set the PERL5LIB
+#     -note that AuthConstants.pm is generated on make in auth, which
+#      doesn't easily work in Travis-CI because there is no dev_container
+#      environment.  For now, this dependency is copied directly in this
+#      module (into lib/Bio/KBase/).
+# 2) checkout and install module_builder; add it to the path
+# 3) build the perl service module (in directory service_test) and
+#    add the long running executable to the path so the local Execution
+#    Engine can run it
+# 4) startup the mock Execution Engine service
+install:
+  - cd ..
+  - git clone https://github.com/kbase/kbapi_common
+  - export PERL5LIB=$(pwd)/kbapi_common/lib:$PERL5LIB
+  - git clone https://github.com/kbase/auth
+  - export PERL5LIB=$(pwd)/auth/Bio-KBase-Auth/lib:$PERL5LIB
+  - git clone https://github.com/kbase/jars
+  - git clone https://github.com/kbaseIncubator/kb_sdk
+  - cd kb_sdk
+  - make
+  - export PATH=$(pwd)/bin:$PATH
+  - cd ../service_test
+  - make
+  - export PATH=$(pwd)/bin:$PATH
+  - ../kb_sdk/test_scripts/ee_mock_service/start_service.sh
+  - sleep 5
+  - curl http://localhost:8000
+  - cd lib
+
+# run the tests
+script:
+  - ./TestPerlServer.sh > perlserver.log 2>&1 &
+  - sleep 5
+  - curl http://localhost:5000
+  - perl TestMathClient.pl
+  - cd ../
+
+after_script:
+  - cat lib/perlserver.log
